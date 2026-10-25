@@ -18,9 +18,11 @@ import com.holosphere.launcher.sphere.SphereCanvas
 import com.holosphere.launcher.feature.apps.AppDrawerScreen
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel) {
+fun HomeScreen(factory: HomeViewModelFactory) {
+    val viewModel: HomeViewModel = viewModel(factory = factory)
     val state = viewModel.uiState.collectAsState().value
     val selected = remember { mutableStateOf<Int?>(null) }
     val drawer = remember { mutableStateOf(false) }

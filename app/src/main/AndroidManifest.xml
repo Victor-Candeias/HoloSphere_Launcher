@@ -5,6 +5,7 @@
     <application
         android:allowBackup="true"
         android:label="HoloSphere Launcher"
+        android:name=".HoloSphereApplication"
         android:supportsRtl="true"
         android:theme="@style/Theme.HoloSphere">
         <activity
