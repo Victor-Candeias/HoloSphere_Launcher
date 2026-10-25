@@ -20,6 +20,8 @@ import com.holosphere.launcher.data.SettingsRepository
 import com.holosphere.launcher.feature.settings.AppearanceBackground
 import com.holosphere.launcher.feature.settings.AppearanceSettings
 import com.holosphere.launcher.feature.settings.BackgroundStyle
+import com.holosphere.launcher.performance.PerformanceProfile
+import com.holosphere.launcher.performance.options
 import com.holosphere.launcher.sphere.SphereCanvas
 import com.holosphere.launcher.feature.home.AccessibleAppList
 import com.holosphere.launcher.feature.apps.AppDrawerScreen
@@ -61,7 +63,12 @@ fun HomeScreen(factory: HomeViewModelFactory) {
         if (settings.twoDimensionalMode) {
             AccessibleAppList(state.apps, settings.largeText, viewModel::launch)
         } else {
-            SphereCanvas(Modifier.weight(1f).padding(16.dp), reducedMotion = settings.reduceMotion, onNodeClick = { index ->
+            val profile = when (settings.performanceProfile) {
+                "economical" -> PerformanceProfile.ECONOMICAL
+                "visual" -> PerformanceProfile.VISUAL
+                else -> PerformanceProfile.BALANCED
+            }
+            SphereCanvas(Modifier.weight(1f).padding(16.dp), reducedMotion = settings.reduceMotion, maxVisibleNodes = profile.options().maxVisibleNodes, onNodeClick = { index ->
                 val app = state.apps.getOrNull(index)
                 selected.value = app?.label ?: "Ícone ${index + 1}"
                 app?.let(viewModel::launch)

@@ -28,6 +28,6 @@ status: active
 | HS-010 | Implementar acessibilidade e modo 2D | done | 2026-10-25 | developer | high | 2026-10-25 |  |  |
 | HS-011 | Implementar meteorologia com cache offline | done | 2026-10-25 | developer | high | 2026-10-25 |  |  |
 | HS-012 | Implementar calendário e widgets externos | done | 2026-10-25 | developer | medium | 2026-10-25 |  |  |
-| HS-013 | Criar benchmarks e perfil económico | backlog | 2026-10-25 | developer | high |  |  |  |
+| HS-013 | Criar benchmarks e perfil económico | done | 2026-10-25 | developer | high | 2026-10-25 |  |  |
 | HS-014 | Implementar backup/restauro versionado | backlog | 2026-10-25 | developer | medium |  |  |  |
 <!-- /maestru:work-items-list -->

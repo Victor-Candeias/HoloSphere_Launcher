@@ -23,9 +23,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun SphereCanvas(modifier: Modifier = Modifier, reducedMotion: Boolean = false, onRotation: (Float) -> Unit = {}, onNodeClick: (Int) -> Unit = {}) {
+fun SphereCanvas(modifier: Modifier = Modifier, reducedMotion: Boolean = false, maxVisibleNodes: Int = 20, onRotation: (Float) -> Unit = {}, onNodeClick: (Int) -> Unit = {}) {
     val rotation = remember { mutableFloatStateOf(0f) }
-    val nodes = remember { SphereEngine.fibonacciSphere(20) }
+    val nodes = remember(maxVisibleNodes) { SphereEngine.fibonacciSphere(maxVisibleNodes) }
     val motion = remember(reducedMotion) { SphereMotionController(MotionConfig(reducedMotion = reducedMotion)) }
     val scope = rememberCoroutineScope()
     var inertiaJob by remember { mutableStateOf<Job?>(null) }

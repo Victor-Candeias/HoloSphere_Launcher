@@ -25,7 +25,8 @@ data class LauncherSettings(
     val twoDimensionalMode: Boolean = false,
     val reduceMotion: Boolean = false,
     val largeText: Boolean = false,
-    val highContrast: Boolean = false
+    val highContrast: Boolean = false,
+    val performanceProfile: String = "balanced"
 )
 
 class SettingsRepository(private val context: Context) {
@@ -44,6 +45,7 @@ class SettingsRepository(private val context: Context) {
         val reduceMotion = booleanPreferencesKey("reduce_motion")
         val largeText = booleanPreferencesKey("large_text")
         val highContrast = booleanPreferencesKey("high_contrast")
+        val performanceProfile = androidx.datastore.preferences.core.stringPreferencesKey("performance_profile")
     }
 
     val settings: Flow<LauncherSettings> = context.settingsDataStore.data.map { prefs ->
@@ -60,7 +62,8 @@ class SettingsRepository(private val context: Context) {
             prefs[Keys.twoD] ?: false,
             prefs[Keys.reduceMotion] ?: false,
             prefs[Keys.largeText] ?: false,
-            prefs[Keys.highContrast] ?: false
+            prefs[Keys.highContrast] ?: false,
+            prefs[Keys.performanceProfile] ?: "balanced"
         )
     }
 
@@ -85,4 +88,5 @@ class SettingsRepository(private val context: Context) {
     suspend fun setReduceMotion(enabled: Boolean) = context.settingsDataStore.edit { it[Keys.reduceMotion] = enabled }
     suspend fun setLargeText(enabled: Boolean) = context.settingsDataStore.edit { it[Keys.largeText] = enabled }
     suspend fun setHighContrast(enabled: Boolean) = context.settingsDataStore.edit { it[Keys.highContrast] = enabled }
+    suspend fun setPerformanceProfile(value: String) = context.settingsDataStore.edit { it[Keys.performanceProfile] = value }
 }
