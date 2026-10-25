@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface AppsRepository {
     fun observeApps(): Flow<List<LauncherApp>>
     fun refresh()
-    fun launch(app: LauncherApp)
+    fun launch(app: LauncherApp): Boolean
 }

@@ -24,7 +24,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun HomeScreen(factory: HomeViewModelFactory) {
     val viewModel: HomeViewModel = viewModel(factory = factory)
     val state = viewModel.uiState.collectAsState().value
-    val selected = remember { mutableStateOf<Int?>(null) }
+    val selected = remember { mutableStateOf<String?>(null) }
     val drawer = remember { mutableStateOf(false) }
     if (drawer.value) {
         AppDrawerScreen { drawer.value = false }
@@ -38,7 +38,11 @@ fun HomeScreen(factory: HomeViewModelFactory) {
         Text(state.title, color = Color.White)
         Text(state.subtitle, color = Color(0xFFB8C2E8), modifier = Modifier.padding(top = 8.dp))
         Button(onClick = { drawer.value = true }, modifier = Modifier.padding(top = 12.dp)) { Text("Todas as aplicações") }
-        SphereCanvas(Modifier.weight(1f).padding(16.dp), onNodeClick = { selected.value = it })
-        selected.value?.let { Text("Ícone ${it + 1} selecionado", color = Color(0xFF7DE2FF)) }
+        SphereCanvas(Modifier.weight(1f).padding(16.dp), onNodeClick = { index ->
+            val app = state.apps.getOrNull(index)
+            selected.value = app?.label ?: "Ícone ${index + 1}"
+            app?.let(viewModel::launch)
+        })
+        selected.value?.let { Text("A abrir: $it", color = Color(0xFF7DE2FF)) }
     }
 }

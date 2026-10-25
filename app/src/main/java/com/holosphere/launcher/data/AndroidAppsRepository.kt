@@ -2,6 +2,7 @@ package com.holosphere.launcher.data
 
 import android.content.Context
 import android.content.Intent
+import android.content.ActivityNotFoundException
 import com.holosphere.launcher.domain.model.LauncherApp
 import com.holosphere.launcher.domain.repository.AppsRepository
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +22,14 @@ class AndroidAppsRepository(private val context: Context) : AppsRepository {
             .sortedBy { it.label.lowercase() }
     }
 
-    override fun launch(app: LauncherApp) {
-        context.startActivity(Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).setClassName(app.packageName, app.activityName).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+    override fun launch(app: LauncherApp): Boolean {
+        return try {
+            context.startActivity(Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).setClassName(app.packageName, app.activityName).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            true
+        } catch (_: ActivityNotFoundException) {
+            false
+        } catch (_: SecurityException) {
+            false
+        }
     }
 }
