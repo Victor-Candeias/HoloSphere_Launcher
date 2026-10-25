@@ -20,7 +20,7 @@ status: active
 | HS-002 | Implementar distribuição Fibonacci e projeção 3D→2D | done | 2026-10-25 | developer | critical | 2026-10-25 |  |  |
 | HS-003 | Implementar rotação por toque e inércia com paragem | done | 2026-10-25 | developer | critical | 2026-10-25 |  |  |
 | HS-004 | Implementar hit testing e abertura de aplicações | done | 2026-10-25 | developer | critical | 2026-10-25 |  |  |
-| HS-005 | Registar a aplicação como launcher HOME | backlog | 2026-10-25 | developer | critical |  |  |  |
+| HS-005 | Registar a aplicação como launcher HOME | done | 2026-10-25 | developer | critical | 2026-10-25 |  |  |
 | HS-006 | Listar aplicações e implementar pesquisa local | backlog | 2026-10-25 | developer | critical |  |  |  |
 | HS-007 | Persistir favoritas e configurações | backlog | 2026-10-25 | developer | critical |  |  |  |
 | HS-008 | Implementar editor de categorias e órbitas | backlog | 2026-10-25 | developer | high |  |  |  |

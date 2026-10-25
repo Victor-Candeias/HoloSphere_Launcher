@@ -37,6 +37,7 @@ fun HomeScreen(factory: HomeViewModelFactory) {
     ) {
         Text(state.title, color = Color.White)
         Text(state.subtitle, color = Color(0xFFB8C2E8), modifier = Modifier.padding(top = 8.dp))
+        LauncherSetupPrompt()
         Button(onClick = { drawer.value = true }, modifier = Modifier.padding(top = 12.dp)) { Text("Todas as aplicações") }
         SphereCanvas(Modifier.weight(1f).padding(16.dp), onNodeClick = { index ->
             val app = state.apps.getOrNull(index)
