@@ -17,7 +17,7 @@ status: active
 | ID | Title | Status | Created | Owner | Priority | Completed | Template | Spec |
 |---|---|---|---|---|---|---|---|---|
 | HS-001 | Criar projeto Kotlin/Compose e arquitetura base | done | 2026-10-25 | developer | critical | 2026-10-25 |  |  |
-| HS-002 | Implementar distribuição Fibonacci e projeção 3D→2D | backlog | 2026-10-25 | developer | critical |  |  |  |
+| HS-002 | Implementar distribuição Fibonacci e projeção 3D→2D | done | 2026-10-25 | developer | critical | 2026-10-25 |  |  |
 | HS-003 | Implementar rotação por toque e inércia com paragem | backlog | 2026-10-25 | developer | critical |  |  |  |
 | HS-004 | Implementar hit testing e abertura de aplicações | backlog | 2026-10-25 | developer | critical |  |  |  |
 | HS-005 | Registar a aplicação como launcher HOME | backlog | 2026-10-25 | developer | critical |  |  |  |
