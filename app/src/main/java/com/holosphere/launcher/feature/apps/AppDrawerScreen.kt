@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.holosphere.launcher.data.AppRepository
+import com.holosphere.launcher.domain.normalizeForSearch
 
 @Composable
 fun AppDrawerScreen(onBack: () -> Unit) {
@@ -23,14 +24,17 @@ fun AppDrawerScreen(onBack: () -> Unit) {
     val repository = remember { AppRepository(context) }
     val apps = remember { repository.load() }
     val query = remember { mutableStateOf("") }
-    val filtered = apps.filter { it.label.contains(query.value, ignoreCase = true) }
+    val normalizedQuery = query.value.normalizeForSearch()
+    val filtered = apps.filter { normalizedQuery.isBlank() || it.label.normalizeForSearch().contains(normalizedQuery) }
     Column(Modifier.fillMaxSize().padding(20.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Button(onClick = onBack) { Text("Voltar") }
         OutlinedTextField(query.value, { query.value = it }, label = { Text("Pesquisar aplicações") })
+        Text("${filtered.size} aplicações")
         LazyColumn {
             items(filtered, key = { it.packageName }) { app ->
                 Button(onClick = { repository.launch(app) }, modifier = Modifier.padding(vertical = 2.dp)) { Text(app.label) }
             }
         }
+        if (filtered.isEmpty()) Text("Nenhuma aplicação encontrada.")
     }
 }
