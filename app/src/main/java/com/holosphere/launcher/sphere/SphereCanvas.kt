@@ -5,9 +5,12 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -21,30 +24,30 @@ import kotlinx.coroutines.launch
 fun SphereCanvas(modifier: Modifier = Modifier, onRotation: (Float) -> Unit = {}, onNodeClick: (Int) -> Unit = {}) {
     val rotation = remember { mutableFloatStateOf(0f) }
     val nodes = remember { SphereEngine.fibonacciSphere(20) }
+    val motion = remember { SphereMotionController() }
     val scope = rememberCoroutineScope()
-    var inertiaJob: Job? = null
+    var inertiaJob by remember { mutableStateOf<Job?>(null) }
     Canvas(
         modifier = modifier.fillMaxSize()
             .pointerInput(Unit) {
                 val velocity = VelocityTracker()
                 detectDragGestures(
-                    onDragStart = { inertiaJob?.cancel(); velocity.resetTracking() },
+                    onDragStart = { inertiaJob?.cancel(); motion.stop(); velocity.resetTracking() },
                     onDragEnd = {
-                        val initial = velocity.calculateVelocity().x / 18000f
+                        motion.release(velocity.calculateVelocity().x)
                         inertiaJob = scope.launch {
-                            var speed = initial
-                            while (kotlin.math.abs(speed) > 0.0005f) {
-                                rotation.floatValue += speed
+                            while (motion.isMoving) {
+                                rotation.floatValue = motion.tick()
                                 onRotation(rotation.floatValue)
-                                speed *= 0.92f
                                 delay(16)
                             }
                         }
                     },
-                    onDragCancel = { inertiaJob?.cancel() }
+                    onDragCancel = { inertiaJob?.cancel(); motion.stop() }
                 ) { change, drag ->
                     velocity.addPosition(change.uptimeMillis, change.position)
-                    rotation.floatValue += drag.x / 320f
+                    motion.drag(drag.x)
+                    rotation.floatValue = motion.rotation
                     onRotation(rotation.floatValue)
                 }
             }
