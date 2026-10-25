@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.weight
 import androidx.compose.material3.Text
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
@@ -33,7 +32,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun HomeScreen(factory: HomeViewModelFactory) {
     val viewModel: HomeViewModel = viewModel(factory = factory)
     val state = viewModel.uiState.collectAsState().value
-    val settingsRepository = remember { SettingsRepository(LocalContext.current) }
+    val context = LocalContext.current
+    val settingsRepository = remember(context) { SettingsRepository(context) }
     val settings = settingsRepository.settings.collectAsState(initial = LauncherSettings()).value
     val selected = remember { mutableStateOf<String?>(null) }
     val drawer = remember { mutableStateOf(false) }

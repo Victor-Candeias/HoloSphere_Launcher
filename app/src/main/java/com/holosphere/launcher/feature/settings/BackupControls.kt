@@ -41,7 +41,7 @@ fun BackupControls(settings: LauncherSettings, favorites: Set<String>) {
         if (uri == null) return@rememberLauncherForActivityResult
         scope.launch(Dispatchers.IO) {
             runCatching {
-                val json = context.contentResolver.openInputStream(uri)?.use { it.readBytes(BackupRepository.MAX_BYTES + 1).toString(Charsets.UTF_8) } ?: error("Ficheiro vazio")
+                val json = context.contentResolver.openInputStream(uri)?.use { it.readBytes().toString(Charsets.UTF_8) } ?: error("Ficheiro vazio")
                 repository.restore(json)
             }.onSuccess { status = "Backup restaurado." }.onFailure { status = "Backup inválido: ${it.message ?: "erro desconhecido"}" }
         }

@@ -1,0 +1,7 @@
+#Sun Oct 25 15:27:23 WET 2026
+base.0=C\:\\__GitPrivate\\HoloSphere_Launcher\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes.dex
+base.1=C\:\\__GitPrivate\\HoloSphere_Launcher\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes2.dex
+path.0=classes.dex
+path.1=classes2.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex

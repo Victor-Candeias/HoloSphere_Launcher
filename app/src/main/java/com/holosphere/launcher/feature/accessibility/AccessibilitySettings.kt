@@ -18,18 +18,19 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun AccessibilityScreen() {
-    val repository = remember { SettingsRepository(LocalContext.current) }
+    val context = LocalContext.current
+    val repository = remember(context) { SettingsRepository(context) }
     val settings = repository.settings.collectAsState(initial = LauncherSettings()).value
     val scope = rememberCoroutineScope()
     Column(Modifier.fillMaxSize().padding(24.dp)) {
         Text("Acessibilidade")
         Text("Modo 2D / lista")
-        Switch(settings.twoDimensionalMode, { scope.launch { repository.setTwoDimensionalMode(it) } })
+        Switch(checked = settings.twoDimensionalMode, onCheckedChange = { value -> scope.launch { repository.setTwoDimensionalMode(value) } })
         Text("Reduzir movimento")
-        Switch(settings.reduceMotion, { scope.launch { repository.setReduceMotion(it) } })
+        Switch(checked = settings.reduceMotion, onCheckedChange = { value -> scope.launch { repository.setReduceMotion(value) } })
         Text("Texto grande")
-        Switch(settings.largeText, { scope.launch { repository.setLargeText(it) } })
+        Switch(checked = settings.largeText, onCheckedChange = { value -> scope.launch { repository.setLargeText(value) } })
         Text("Alto contraste")
-        Switch(settings.highContrast, { scope.launch { repository.setHighContrast(it) } })
+        Switch(checked = settings.highContrast, onCheckedChange = { value -> scope.launch { repository.setHighContrast(value) } })
     }
 }

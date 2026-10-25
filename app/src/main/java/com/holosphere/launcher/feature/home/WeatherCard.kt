@@ -26,7 +26,8 @@ private const val LISBON_LONGITUDE = -9.1393
 
 @Composable
 fun WeatherCard() {
-    val repository = remember { WeatherRepository(LocalContext.current) }
+    val context = LocalContext.current
+    val repository = remember(context) { WeatherRepository(context) }
     val scope = rememberCoroutineScope()
     var weather by remember { mutableStateOf<Weather?>(null) }
     var loading by remember { mutableStateOf(true) }

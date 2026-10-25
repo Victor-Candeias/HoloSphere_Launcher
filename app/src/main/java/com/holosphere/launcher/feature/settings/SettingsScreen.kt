@@ -26,7 +26,8 @@ import com.holosphere.launcher.performance.PerformanceBenchmark
 
 @Composable
 fun SettingsScreen() {
-    val repository = remember { SettingsRepository(LocalContext.current) }
+    val context = LocalContext.current
+    val repository = remember(context) { SettingsRepository(context) }
     val settings = repository.settings.collectAsState(initial = LauncherSettings()).value
     val scope = rememberCoroutineScope()
     val benchmark = remember { mutableStateOf<com.holosphere.launcher.performance.ProjectionBenchmarkResult?>(null) }

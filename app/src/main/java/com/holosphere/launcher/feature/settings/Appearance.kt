@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 
 enum class BackgroundStyle { SOLID, GRADIENT }
 
@@ -20,7 +21,7 @@ data class AppearanceSettings(
 @Composable
 fun AppearanceBackground(settings: AppearanceSettings, content: @Composable () -> Unit) {
     val brush = when (settings.backgroundStyle) {
-        BackgroundStyle.SOLID -> Brush.solidColor(Color(0xFF080B18))
+        BackgroundStyle.SOLID -> SolidColor(Color(0xFF080B18))
         BackgroundStyle.GRADIENT -> Brush.radialGradient(listOf(settings.primaryColor.copy(alpha = .38f), Color(0xFF080B18)))
     }
     Box(Modifier.fillMaxSize().background(brush)) { content() }

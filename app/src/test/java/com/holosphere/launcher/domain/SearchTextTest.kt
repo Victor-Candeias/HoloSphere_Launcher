@@ -5,7 +5,7 @@ import org.junit.Test
 
 class SearchTextTest {
     @Test fun removesAccentsAndNormalizesCase() {
-        assertEquals("camera", "Câmara".normalizeForSearch())
+        assertEquals("camara", "Câmara".normalizeForSearch())
     }
 
     @Test fun trimsWhitespace() {

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.weight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -28,14 +27,15 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun CategoryScreen(onSelect: (String) -> Unit = {}) {
-    val repository = remember { CategoryRepository(LocalContext.current) }
+    val context = LocalContext.current
+    val repository = remember(context) { CategoryRepository(context) }
     val categories = repository.categories.collectAsState(initial = emptyList()).value
     val scope = rememberCoroutineScope()
     var name by remember { mutableStateOf("") }
     Column(Modifier.fillMaxSize().padding(24.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Text("Constelações", color = Color.White)
         Row {
-            OutlinedTextField(name, { name = it }, label = { Text("Nova categoria") }, modifier = Modifier.weight(1f))
+            OutlinedTextField(value = name, onValueChange = { name = it }, label = { Text("Nova categoria") }, modifier = Modifier.weight(1f))
             Button(onClick = {
                 val cleanName = name.trim()
                 if (cleanName.isNotEmpty()) {

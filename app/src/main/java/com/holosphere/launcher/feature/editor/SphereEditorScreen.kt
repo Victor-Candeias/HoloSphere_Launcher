@@ -19,13 +19,14 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SphereEditorScreen() {
-    val repository = remember { SettingsRepository(LocalContext.current) }
+    val context = LocalContext.current
+    val repository = remember(context) { SettingsRepository(context) }
     val settings = repository.settings.collectAsState(initial = LauncherSettings()).value
     val scope = rememberCoroutineScope()
     Column(Modifier.fillMaxSize().padding(24.dp)) {
         Text("Editor da esfera")
         Text("Densidade: ${(settings.sphereDensity * 100).toInt()}%")
-        Slider(settings.sphereDensity, { value -> scope.launch { repository.setSphereDensity(value) } })
+        Slider(value = settings.sphereDensity, onValueChange = { value -> scope.launch { repository.setSphereDensity(value) } })
         Text("Estilo: ${settings.sphereStyle}")
         listOf("sphere", "rings", "galaxy", "minimal", "constellations").forEach { style ->
             TextButton(onClick = { scope.launch { repository.setSphereStyle(style) } }) { Text(style) }
