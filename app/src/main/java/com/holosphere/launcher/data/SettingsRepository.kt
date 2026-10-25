@@ -21,7 +21,11 @@ data class LauncherSettings(
     val backgroundStyle: String = "gradient",
     val primaryColor: Long = 0xFF7DE2FF,
     val particlesEnabled: Boolean = false,
-    val blurEnabled: Boolean = false
+    val blurEnabled: Boolean = false,
+    val twoDimensionalMode: Boolean = false,
+    val reduceMotion: Boolean = false,
+    val largeText: Boolean = false,
+    val highContrast: Boolean = false
 )
 
 class SettingsRepository(private val context: Context) {
@@ -36,6 +40,10 @@ class SettingsRepository(private val context: Context) {
         val primaryColor = longPreferencesKey("primary_color")
         val particles = booleanPreferencesKey("particles_enabled")
         val blur = booleanPreferencesKey("blur_enabled")
+        val twoD = booleanPreferencesKey("two_dimensional_mode")
+        val reduceMotion = booleanPreferencesKey("reduce_motion")
+        val largeText = booleanPreferencesKey("large_text")
+        val highContrast = booleanPreferencesKey("high_contrast")
     }
 
     val settings: Flow<LauncherSettings> = context.settingsDataStore.data.map { prefs ->
@@ -48,7 +56,11 @@ class SettingsRepository(private val context: Context) {
             prefs[Keys.backgroundStyle] ?: "gradient",
             prefs[Keys.primaryColor] ?: 0xFF7DE2FF,
             prefs[Keys.particles] ?: false,
-            prefs[Keys.blur] ?: false
+            prefs[Keys.blur] ?: false,
+            prefs[Keys.twoD] ?: false,
+            prefs[Keys.reduceMotion] ?: false,
+            prefs[Keys.largeText] ?: false,
+            prefs[Keys.highContrast] ?: false
         )
     }
 
@@ -69,4 +81,8 @@ class SettingsRepository(private val context: Context) {
     suspend fun setPrimaryColor(value: Long) = context.settingsDataStore.edit { it[Keys.primaryColor] = value }
     suspend fun setParticlesEnabled(enabled: Boolean) = context.settingsDataStore.edit { it[Keys.particles] = enabled }
     suspend fun setBlurEnabled(enabled: Boolean) = context.settingsDataStore.edit { it[Keys.blur] = enabled }
+    suspend fun setTwoDimensionalMode(enabled: Boolean) = context.settingsDataStore.edit { it[Keys.twoD] = enabled }
+    suspend fun setReduceMotion(enabled: Boolean) = context.settingsDataStore.edit { it[Keys.reduceMotion] = enabled }
+    suspend fun setLargeText(enabled: Boolean) = context.settingsDataStore.edit { it[Keys.largeText] = enabled }
+    suspend fun setHighContrast(enabled: Boolean) = context.settingsDataStore.edit { it[Keys.highContrast] = enabled }
 }

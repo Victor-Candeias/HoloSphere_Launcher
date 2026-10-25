@@ -21,6 +21,7 @@ import com.holosphere.launcher.feature.settings.AppearanceBackground
 import com.holosphere.launcher.feature.settings.AppearanceSettings
 import com.holosphere.launcher.feature.settings.BackgroundStyle
 import com.holosphere.launcher.sphere.SphereCanvas
+import com.holosphere.launcher.feature.home.AccessibleAppList
 import com.holosphere.launcher.feature.apps.AppDrawerScreen
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,11 +56,15 @@ fun HomeScreen(factory: HomeViewModelFactory) {
         Text(state.subtitle, color = Color(0xFFB8C2E8), modifier = Modifier.padding(top = 8.dp))
         LauncherSetupPrompt()
         Button(onClick = { drawer.value = true }, modifier = Modifier.padding(top = 12.dp)) { Text("Todas as aplicações") }
-        SphereCanvas(Modifier.weight(1f).padding(16.dp), onNodeClick = { index ->
-            val app = state.apps.getOrNull(index)
-            selected.value = app?.label ?: "Ícone ${index + 1}"
-            app?.let(viewModel::launch)
-        })
+        if (settings.twoDimensionalMode) {
+            AccessibleAppList(state.apps, settings.largeText, viewModel::launch)
+        } else {
+            SphereCanvas(Modifier.weight(1f).padding(16.dp), reducedMotion = settings.reduceMotion, onNodeClick = { index ->
+                val app = state.apps.getOrNull(index)
+                selected.value = app?.label ?: "Ícone ${index + 1}"
+                app?.let(viewModel::launch)
+            })
+        }
         selected.value?.let { Text("A abrir: $it", color = Color(settings.primaryColor)) }
       }
     }

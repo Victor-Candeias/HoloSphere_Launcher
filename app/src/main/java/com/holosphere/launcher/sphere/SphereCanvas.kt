@@ -16,19 +16,21 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.util.VelocityTracker
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun SphereCanvas(modifier: Modifier = Modifier, onRotation: (Float) -> Unit = {}, onNodeClick: (Int) -> Unit = {}) {
+fun SphereCanvas(modifier: Modifier = Modifier, reducedMotion: Boolean = false, onRotation: (Float) -> Unit = {}, onNodeClick: (Int) -> Unit = {}) {
     val rotation = remember { mutableFloatStateOf(0f) }
     val nodes = remember { SphereEngine.fibonacciSphere(20) }
-    val motion = remember { SphereMotionController() }
+    val motion = remember(reducedMotion) { SphereMotionController(MotionConfig(reducedMotion = reducedMotion)) }
     val scope = rememberCoroutineScope()
     var inertiaJob by remember { mutableStateOf<Job?>(null) }
     Canvas(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize().semantics { contentDescription = "Esfera holográfica de aplicações" }
             .pointerInput(Unit) {
                 val velocity = VelocityTracker()
                 detectDragGestures(
