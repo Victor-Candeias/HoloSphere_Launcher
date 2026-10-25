@@ -11,19 +11,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun SphereCanvas(modifier: Modifier = Modifier, onRotation: (Float) -> Unit = {}) {
+fun SphereCanvas(modifier: Modifier = Modifier, onRotation: (Float) -> Unit = {}, onNodeClick: (Int) -> Unit = {}) {
     val rotation = remember { mutableFloatStateOf(0f) }
     val nodes = remember { SphereEngine.fibonacciSphere(20) }
     val scope = rememberCoroutineScope()
     var inertiaJob: Job? = null
     Canvas(
-        modifier = modifier.fillMaxSize().pointerInput(Unit) {
+        modifier = modifier.fillMaxSize()
+            .pointerInput(Unit) {
             val velocity = VelocityTracker()
             detectDragGestures(
                 onDragStart = { inertiaJob?.cancel(); velocity.resetTracking() },
@@ -45,7 +47,13 @@ fun SphereCanvas(modifier: Modifier = Modifier, onRotation: (Float) -> Unit = {}
                 rotation.floatValue += drag.x / 320f
                 onRotation(rotation.floatValue)
             }
-        }
+            .pointerInput(Unit) {
+                detectTapGestures { position ->
+                    val projected = SphereEngine.project(nodes, rotation.floatValue, size.width.coerceAtMost(size.height) * .34f, 1.8f)
+                    val local = position - Offset(size.width / 2f, size.height / 2f)
+                    SphereHitTester.nearest(projected, local.x, local.y, 34f)?.let(onNodeClick)
+                }
+            }
     ) {
         val center = Offset(size.width / 2f, size.height / 2f)
         val projected = SphereEngine.project(nodes, rotation.floatValue, size.minDimension * .34f, 1.8f)
