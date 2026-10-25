@@ -37,5 +37,10 @@ created: {{created}}
 
 ## Impacted Files
 
+<!-- Guidelines:
+- List files, modules, or components affected by the test plan
+- State whether each entry is created, modified, or inspected
+-->
+
 | File | Action | Purpose |
 |------|--------|---------|
