@@ -21,7 +21,7 @@ data class AppearanceSettings(
 fun AppearanceBackground(settings: AppearanceSettings, content: @Composable () -> Unit) {
     val brush = when (settings.backgroundStyle) {
         BackgroundStyle.SOLID -> Brush.solidColor(Color(0xFF080B18))
-        BackgroundStyle.GRADIENT -> Brush.radialGradient(listOf(Color(0xFF17294D), Color(0xFF080B18)))
+        BackgroundStyle.GRADIENT -> Brush.radialGradient(listOf(settings.primaryColor.copy(alpha = .38f), Color(0xFF080B18)))
     }
     Box(Modifier.fillMaxSize().background(brush)) { content() }
 }

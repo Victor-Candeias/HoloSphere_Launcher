@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.core.floatPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -11,7 +12,17 @@ import kotlinx.coroutines.flow.map
 
 val Context.settingsDataStore by preferencesDataStore("launcher_settings")
 
-data class LauncherSettings(val motionEnabled: Boolean = true, val labelsEnabled: Boolean = true, val darkTheme: Boolean = true, val sphereDensity: Float = .5f, val sphereStyle: String = "sphere")
+data class LauncherSettings(
+    val motionEnabled: Boolean = true,
+    val labelsEnabled: Boolean = true,
+    val darkTheme: Boolean = true,
+    val sphereDensity: Float = .5f,
+    val sphereStyle: String = "sphere",
+    val backgroundStyle: String = "gradient",
+    val primaryColor: Long = 0xFF7DE2FF,
+    val particlesEnabled: Boolean = false,
+    val blurEnabled: Boolean = false
+)
 
 class SettingsRepository(private val context: Context) {
     private object Keys {
@@ -21,10 +32,24 @@ class SettingsRepository(private val context: Context) {
         val favorites = stringSetPreferencesKey("favorite_packages")
         val sphereDensity = floatPreferencesKey("sphere_density")
         val sphereStyle = androidx.datastore.preferences.core.stringPreferencesKey("sphere_style")
+        val backgroundStyle = androidx.datastore.preferences.core.stringPreferencesKey("background_style")
+        val primaryColor = longPreferencesKey("primary_color")
+        val particles = booleanPreferencesKey("particles_enabled")
+        val blur = booleanPreferencesKey("blur_enabled")
     }
 
     val settings: Flow<LauncherSettings> = context.settingsDataStore.data.map { prefs ->
-        LauncherSettings(prefs[Keys.motion] ?: true, prefs[Keys.labels] ?: true, prefs[Keys.dark] ?: true, prefs[Keys.sphereDensity] ?: .5f, prefs[Keys.sphereStyle] ?: "sphere")
+        LauncherSettings(
+            prefs[Keys.motion] ?: true,
+            prefs[Keys.labels] ?: true,
+            prefs[Keys.dark] ?: true,
+            prefs[Keys.sphereDensity] ?: .5f,
+            prefs[Keys.sphereStyle] ?: "sphere",
+            prefs[Keys.backgroundStyle] ?: "gradient",
+            prefs[Keys.primaryColor] ?: 0xFF7DE2FF,
+            prefs[Keys.particles] ?: false,
+            prefs[Keys.blur] ?: false
+        )
     }
 
     val favoritePackages: Flow<Set<String>> = context.settingsDataStore.data.map { it[Keys.favorites] ?: emptySet() }
@@ -40,4 +65,8 @@ class SettingsRepository(private val context: Context) {
 
     suspend fun setSphereDensity(value: Float) = context.settingsDataStore.edit { it[Keys.sphereDensity] = value }
     suspend fun setSphereStyle(value: String) = context.settingsDataStore.edit { it[Keys.sphereStyle] = value }
+    suspend fun setBackgroundStyle(value: String) = context.settingsDataStore.edit { it[Keys.backgroundStyle] = value }
+    suspend fun setPrimaryColor(value: Long) = context.settingsDataStore.edit { it[Keys.primaryColor] = value }
+    suspend fun setParticlesEnabled(enabled: Boolean) = context.settingsDataStore.edit { it[Keys.particles] = enabled }
+    suspend fun setBlurEnabled(enabled: Boolean) = context.settingsDataStore.edit { it[Keys.blur] = enabled }
 }
