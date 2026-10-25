@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.weight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -12,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.holosphere.launcher.sphere.SphereCanvas
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel) {
@@ -23,5 +25,6 @@ fun HomeScreen(viewModel: HomeViewModel) {
     ) {
         Text(state.title, color = Color.White)
         Text(state.subtitle, color = Color(0xFFB8C2E8), modifier = Modifier.padding(top = 8.dp))
+        SphereCanvas(Modifier.weight(1f).padding(16.dp))
     }
 }
