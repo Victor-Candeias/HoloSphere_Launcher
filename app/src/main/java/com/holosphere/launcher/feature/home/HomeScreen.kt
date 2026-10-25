@@ -54,6 +54,7 @@ fun HomeScreen(factory: HomeViewModelFactory) {
       ) {
         Text(state.title, color = Color.White)
         Text(state.subtitle, color = Color(0xFFB8C2E8), modifier = Modifier.padding(top = 8.dp))
+        WeatherCard()
         LauncherSetupPrompt()
         Button(onClick = { drawer.value = true }, modifier = Modifier.padding(top = 12.dp)) { Text("Todas as aplicações") }
         if (settings.twoDimensionalMode) {

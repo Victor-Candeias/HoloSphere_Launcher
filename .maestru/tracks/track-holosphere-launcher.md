@@ -26,7 +26,7 @@ status: active
 | HS-008 | Implementar editor de categorias e órbitas | done | 2026-10-25 | developer | high | 2026-10-25 |  |  |
 | HS-009 | Implementar fundos personalizados e temas | done | 2026-10-25 | developer | high | 2026-10-25 |  |  |
 | HS-010 | Implementar acessibilidade e modo 2D | done | 2026-10-25 | developer | high | 2026-10-25 |  |  |
-| HS-011 | Implementar meteorologia com cache offline | backlog | 2026-10-25 | developer | high |  |  |  |
+| HS-011 | Implementar meteorologia com cache offline | done | 2026-10-25 | developer | high | 2026-10-25 |  |  |
 | HS-012 | Implementar calendário e widgets externos | backlog | 2026-10-25 | developer | medium |  |  |  |
 | HS-013 | Criar benchmarks e perfil económico | backlog | 2026-10-25 | developer | high |  |  |  |
 | HS-014 | Implementar backup/restauro versionado | backlog | 2026-10-25 | developer | medium |  |  |  |
