@@ -23,7 +23,7 @@ status: active
 | HS-005 | Registar a aplicação como launcher HOME | done | 2026-10-25 | developer | critical | 2026-10-25 |  |  |
 | HS-006 | Listar aplicações e implementar pesquisa local | done | 2026-10-25 | developer | critical | 2026-10-25 |  |  |
 | HS-007 | Persistir favoritas e configurações | done | 2026-10-25 | developer | critical | 2026-10-25 |  |  |
-| HS-008 | Implementar editor de categorias e órbitas | backlog | 2026-10-25 | developer | high |  |  |  |
+| HS-008 | Implementar editor de categorias e órbitas | done | 2026-10-25 | developer | high | 2026-10-25 |  |  |
 | HS-009 | Implementar fundos personalizados e temas | backlog | 2026-10-25 | developer | high |  |  |  |
 | HS-010 | Implementar acessibilidade e modo 2D | backlog | 2026-10-25 | developer | high |  |  |  |
 | HS-011 | Implementar meteorologia com cache offline | backlog | 2026-10-25 | developer | high |  |  |  |
