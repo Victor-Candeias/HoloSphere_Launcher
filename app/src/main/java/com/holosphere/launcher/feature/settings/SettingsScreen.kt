@@ -30,6 +30,7 @@ fun SettingsScreen() {
     val settings = repository.settings.collectAsState(initial = LauncherSettings()).value
     val scope = rememberCoroutineScope()
     val benchmark = remember { mutableStateOf<com.holosphere.launcher.performance.ProjectionBenchmarkResult?>(null) }
+    val favorites = repository.favoritePackages.collectAsState(initial = emptySet()).value
     Column(Modifier.fillMaxSize().padding(24.dp)) {
         Text("Aparência")
         Row { Text("Rótulos"); Switch(settings.labelsEnabled, { value -> scope.launch { repository.setLabelsEnabled(value) } }) }
@@ -51,5 +52,6 @@ fun SettingsScreen() {
         Text("Nós máximos: ${when (settings.performanceProfile) { "economical" -> PerformanceProfile.ECONOMICAL; "visual" -> PerformanceProfile.VISUAL; else -> PerformanceProfile.BALANCED }.options().maxVisibleNodes}")
         Button(onClick = { scope.launch { benchmark.value = withContext(Dispatchers.Default) { PerformanceBenchmark.measure(20) } } }) { Text("Executar benchmark") }
         benchmark.value?.let { Text("${it.averageFrameMs} ms/frame · ${it.elapsedMs} ms total") }
+        BackupControls(settings, favorites)
     }
 }

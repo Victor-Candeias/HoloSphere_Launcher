@@ -29,5 +29,5 @@ status: active
 | HS-011 | Implementar meteorologia com cache offline | done | 2026-10-25 | developer | high | 2026-10-25 |  |  |
 | HS-012 | Implementar calendário e widgets externos | done | 2026-10-25 | developer | medium | 2026-10-25 |  |  |
 | HS-013 | Criar benchmarks e perfil económico | done | 2026-10-25 | developer | high | 2026-10-25 |  |  |
-| HS-014 | Implementar backup/restauro versionado | backlog | 2026-10-25 | developer | medium |  |  |  |
+| HS-014 | Implementar backup/restauro versionado | done | 2026-10-25 | developer | medium | 2026-10-25 |  |  |
 <!-- /maestru:work-items-list -->

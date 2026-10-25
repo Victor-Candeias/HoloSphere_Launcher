@@ -89,4 +89,21 @@ class SettingsRepository(private val context: Context) {
     suspend fun setLargeText(enabled: Boolean) = context.settingsDataStore.edit { it[Keys.largeText] = enabled }
     suspend fun setHighContrast(enabled: Boolean) = context.settingsDataStore.edit { it[Keys.highContrast] = enabled }
     suspend fun setPerformanceProfile(value: String) = context.settingsDataStore.edit { it[Keys.performanceProfile] = value }
+    suspend fun restore(settings: LauncherSettings, favorites: Set<String>) = context.settingsDataStore.edit { prefs ->
+        prefs[Keys.motion] = settings.motionEnabled
+        prefs[Keys.labels] = settings.labelsEnabled
+        prefs[Keys.dark] = settings.darkTheme
+        prefs[Keys.sphereDensity] = settings.sphereDensity
+        prefs[Keys.sphereStyle] = settings.sphereStyle
+        prefs[Keys.backgroundStyle] = settings.backgroundStyle
+        prefs[Keys.primaryColor] = settings.primaryColor
+        prefs[Keys.particles] = settings.particlesEnabled
+        prefs[Keys.blur] = settings.blurEnabled
+        prefs[Keys.twoD] = settings.twoDimensionalMode
+        prefs[Keys.reduceMotion] = settings.reduceMotion
+        prefs[Keys.largeText] = settings.largeText
+        prefs[Keys.highContrast] = settings.highContrast
+        prefs[Keys.performanceProfile] = settings.performanceProfile
+        prefs[Keys.favorites] = favorites
+    }
 }
