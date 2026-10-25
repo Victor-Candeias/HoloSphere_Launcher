@@ -6,19 +6,42 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.input.pointer.util.VelocityTracker
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun SphereCanvas(modifier: Modifier = Modifier, onRotation: (Float) -> Unit = {}) {
     val rotation = remember { mutableFloatStateOf(0f) }
     val nodes = remember { SphereEngine.fibonacciSphere(20) }
+    val scope = rememberCoroutineScope()
+    var inertiaJob: Job? = null
     Canvas(
         modifier = modifier.fillMaxSize().pointerInput(Unit) {
-            detectDragGestures { _, drag ->
+            val velocity = VelocityTracker()
+            detectDragGestures(
+                onDragStart = { inertiaJob?.cancel(); velocity.resetTracking() },
+                onDragEnd = {
+                    val initial = velocity.calculateVelocity().x / 18000f
+                    inertiaJob = scope.launch {
+                        var speed = initial
+                        while (kotlin.math.abs(speed) > 0.0005f) {
+                            rotation.floatValue += speed
+                            onRotation(rotation.floatValue)
+                            speed *= 0.92f
+                            delay(16)
+                        }
+                    }
+                },
+                onDragCancel = { inertiaJob?.cancel() }
+            ) { change, drag ->
+                velocity.addPosition(change.uptimeMillis, change.position)
                 rotation.floatValue += drag.x / 320f
                 onRotation(rotation.floatValue)
             }
